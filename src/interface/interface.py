@@ -1,4 +1,5 @@
 from src.controller.controller import *
+from src.interface.Table import *
 
 COLUMN_DATE_SIZE = 12
 COLUMN_CATEGORY_SIZE = 11
@@ -59,4 +60,9 @@ def pad_center(string, size, padding=" ", truncate=True):
 
 
 def start():
+    controller = Controller()
+    accounts = controller.get_all_accounts()
+    table = Table(accounts)
+
+    # TODO: move table creation and printing logic to the class Table
     print_table()
