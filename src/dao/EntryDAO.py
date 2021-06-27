@@ -3,32 +3,46 @@ from src.model.entry import *
 
 
 class EntryDAO:
+    ENTRY_ID_REGISTER_INDEX = 0
+    ACCOUNT_ID_REGISTER_INDEX = 1
+    DATE_REGISTER_INDEX = 2
+    SEQ_REGISTER_INDEX = 3
+    CATEGORY_REGISTER_INDEX = 4
+    VALUE_REGISTER_INDEX = 5
+    DESCRIPTION_REGISTER_INDEX = 6
+    COMMENTARY_REGISTER_INDEX = 7
+
     def __init__(self):
         self._sqlite_conn = SqliteConnection()
 
     def get_all(self):
         command = "SELECT * FROM entry"
         results = self._sqlite_conn.execute_and_fetch(command)
-
-        accountDAO = AccountDAO()
+        if results is None:
+            return []
 
         entries = []
         for result in results:
-            entry_id = result[0]
-            account = accountDAO.get_by_id(result[1])
-            date = result[2]
-            seq = result[3]
-            entry_type = result[4]
-            value = result[5]
-            if result[6] is not None:
-                description = result[6]
-            else:
-                description = ""
-            if result[7] is not None:
-                commentary = result[7]
-            else:
-                commentary = ""
-
-            entries.append(Entry(entry_id, account, date, seq, entry_type, value, description, commentary))
+            entries.append(self.register_to_object(result))
 
         return entries
+
+    def register_to_object(self, register):
+        accountDAO = AccountDAO()
+
+        entry_id = register[self.ENTRY_ID_REGISTER_INDEX]
+        account = accountDAO.get_by_id(register[self.ACCOUNT_ID_REGISTER_INDEX])
+        date = register[self.DATE_REGISTER_INDEX]
+        seq = register[self.SEQ_REGISTER_INDEX]
+        category = register[self.CATEGORY_REGISTER_INDEX]
+        value = register[self.VALUE_REGISTER_INDEX]
+        if register[self.DESCRIPTION_REGISTER_INDEX] is not None:
+            description = register[self.DESCRIPTION_REGISTER_INDEX]
+        else:
+            description = ""
+        if register[self.COMMENTARY_REGISTER_INDEX] is not None:
+            commentary = register[self.COMMENTARY_REGISTER_INDEX]
+        else:
+            commentary = ""
+
+        return Entry(entry_id, account, date, seq, category, value, description, commentary)

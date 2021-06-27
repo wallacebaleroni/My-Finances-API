@@ -56,3 +56,7 @@ def pad_center(string, size, padding=" ", truncate=True):
             return string[:size]
         else:
             return string
+
+
+def start():
+    print_table()

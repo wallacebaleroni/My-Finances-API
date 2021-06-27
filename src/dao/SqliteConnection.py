@@ -19,7 +19,7 @@ class SqliteConnection:
                                 account_id  INTEGER     NOT NULL,
                                 date        TEXT        NOT NULL,
                                 seq         INTEGER     NOT NULL,
-                                type        TEXT        NOT NULL,
+                                category    TEXT        NOT NULL,
                                 value       INTEGER     NOT NULL,
                                 description TEXT,
                                 commentary  TEXT,
@@ -32,6 +32,7 @@ class SqliteConnection:
         self._connection.close()
 
     def execute_and_fetch(self, command):
+        # Maybe this should have a try/catch
         self._cursor.execute(command)
         self._connection.commit()
         return self._cursor.fetchall()
