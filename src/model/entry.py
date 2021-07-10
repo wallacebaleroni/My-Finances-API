@@ -9,10 +9,17 @@ class Entry:
         self.description = description
         self.commentary = commentary
 
+        self.__dict__ = self.__dict__()
+
     def __str__(self):
         value = self.get_formatted_value()
         return "|{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|".format(self.entry_id, self.account.name, self.date, self.seq,
                                                           self.category, value, self.description, self.commentary)
+
+    def __dict__(self):
+        return {'entry_id': self.entry_id, 'account': self.account.id, 'date': self.date, 'seq': self.seq,
+                'category': self.category, 'value': self.value, 'description': self.description,
+                'commentary': self.commentary}
 
     def get_value(self):
         return self.value / 100
