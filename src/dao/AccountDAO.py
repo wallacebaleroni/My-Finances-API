@@ -1,5 +1,6 @@
 from src.dao.SqliteConnection import *
 from src.model.Account import *
+from src.model.AccountType import *
 
 
 class AccountDAO:
@@ -33,7 +34,7 @@ class AccountDAO:
     def register_to_object(self, register):
         account_id = register[self.ACCOUNT_ID_REGISTER_INDEX]
         name = register[self.NAME_REGISTER_INDEX]
-        account_type = register[self.TYPE_REGISTER_INDEX]
+        account_type = AccountType(register[self.TYPE_REGISTER_INDEX])
         color = register[self.COLOR_REGISTER_INDEX]
 
         if color is not None:

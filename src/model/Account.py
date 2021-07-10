@@ -4,3 +4,8 @@ class Account:
         self.name = name
         self.type = account_type
         self.color = color
+
+        self.__dict__ = self.__dict__()
+
+    def __dict__(self):
+        return {'id': self.id, 'name': self.name, 'type': self.type.name, 'color': self.color}
