@@ -9,13 +9,10 @@ class AccountDAO:
     TYPE_REGISTER_INDEX = 2
     COLOR_REGISTER_INDEX = 3
 
-    def __init__(self):
-        self._sqlite_conn = SqliteConnection()
-
     def get_by_id(self, account_id):
         command = "SELECT * FROM account WHERE account_id={0}".format(account_id)
 
-        result = self._sqlite_conn.execute_and_fetch(command)
+        result = execute_and_fetch(command)
         if len(result) > 0:
             result = self.register_to_object(result[0])
         else:
@@ -26,7 +23,7 @@ class AccountDAO:
 
     def get_all(self):
         command = "SELECT * FROM account"
-        results = self._sqlite_conn.execute_and_fetch(command)
+        results = execute_and_fetch(command)
         if results is None:
             return []
 
@@ -35,6 +32,12 @@ class AccountDAO:
             accounts.append(self.register_to_object(result))
 
         return accounts
+
+    def save(self, account):
+        command = "INSERT INTO account(name, type, color) VALUES('{0}', '{1}', '{2}')"\
+            .format(account.name, account.type.value, account.color)
+        result = execute(command)
+        return result
 
     def register_to_object(self, register):
         account_id = register[self.ACCOUNT_ID_REGISTER_INDEX]

@@ -9,8 +9,6 @@ class Entry:
         self.description = description
         self.commentary = commentary
 
-        self.__dict__ = self.__dict__()
-
     def __str__(self):
         value = self.get_formatted_value()
         return "|{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|".format(self.entry_id, self.account.name, self.date, self.seq,

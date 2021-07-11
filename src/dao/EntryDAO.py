@@ -1,5 +1,6 @@
-from src.dao.AccountDAO import *
+from src.dao.SqliteConnection import *
 from src.model.entry import *
+from src.dao.AccountDAO import AccountDAO
 
 
 class EntryDAO:
@@ -12,12 +13,9 @@ class EntryDAO:
     DESCRIPTION_REGISTER_INDEX = 6
     COMMENTARY_REGISTER_INDEX = 7
 
-    def __init__(self):
-        self._sqlite_conn = SqliteConnection()
-
     def get_all(self):
         command = "SELECT * FROM entry"
-        results = self._sqlite_conn.execute_and_fetch(command)
+        results = execute_and_fetch(command)
         if results is None:
             return []
 

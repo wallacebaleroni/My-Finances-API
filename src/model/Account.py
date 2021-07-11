@@ -5,7 +5,8 @@ class Account:
         self.type = account_type
         self.color = color
 
-        self.__dict__ = self.__dict__()
+    def set_id(self, account_id):
+        self.id = account_id
 
     def __dict__(self):
         return {'id': self.id, 'name': self.name, 'type': self.type.name, 'color': self.color}
