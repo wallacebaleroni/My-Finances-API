@@ -1,29 +1,31 @@
-from src.dao.SqliteConnection import *
 from src.dao.EntryDAO import *
 from src.dao.AccountDAO import *
 
 
-class Controller:
-    def __init__(self):
-        self.entryDAO = EntryDAO()
-        self.accountDAO = AccountDAO()
+def get_all_accounts():
+    accountDAO = AccountDAO()
+    return accountDAO.get_all()
 
-    def get_all_accounts(self):
-        return self.accountDAO.get_all()
 
-    def get_account(self, account_id):
-        return self.accountDAO.get_by_id(account_id)
+def get_account(account_id):
+    accountDAO = AccountDAO()
+    return accountDAO.get_by_id(account_id)
 
-    def create_account(self, name, account_type, color):
-        new_account = Account(-1, name, AccountType(account_type), color)
-        result = self.accountDAO.save(new_account)
-        if result is not None:
-            new_account.set_id(result)
-            return new_account
-        return None
 
-    def get_all_entries(self):
-        return self.entryDAO.get_all()
+def create_account(name, account_type, color):
+    accountDAO = AccountDAO()
+    new_account = Account(-1, name, AccountType(account_type), color)
+    result = accountDAO.save(new_account)
+    if result is not None:
+        new_account.set_id(result)
+        return new_account
+    return None
 
-    def create_database(self):
-        create()
+
+def get_all_entries():
+    entryDAO = EntryDAO()
+    return entryDAO.get_all()
+
+
+def create_database():
+    create()

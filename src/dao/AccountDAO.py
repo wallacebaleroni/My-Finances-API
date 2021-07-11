@@ -1,4 +1,4 @@
-from src.dao.SqliteConnection import *
+from src.util.SqliteConnection import *
 from src.model.Account import *
 from src.model.AccountType import *
 

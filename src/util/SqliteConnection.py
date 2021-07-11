@@ -33,7 +33,6 @@ def execute(command):
 def execute_and_fetch(command):
     connection, cursor = open_sqlite_connection()
 
-    result = None
     try:
         cursor.execute(command)
         connection.commit()
@@ -41,6 +40,7 @@ def execute_and_fetch(command):
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
         print("Exception class is: ", er.__class__)
+        result = None
     finally:
         close_sqlite_connection(connection, cursor)
 

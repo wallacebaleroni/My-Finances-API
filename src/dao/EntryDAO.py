@@ -1,5 +1,5 @@
-from src.dao.SqliteConnection import *
-from src.model.entry import *
+from src.util.SqliteConnection import *
+from src.model.Entry import *
 from src.dao.AccountDAO import AccountDAO
 
 
