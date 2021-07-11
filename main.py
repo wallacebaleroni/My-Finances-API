@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, make_response
 
 from src.controller.controller import *
 
@@ -25,6 +25,14 @@ def define_routes(app):
         accounts = controller.get_all_accounts()
         accounts = {'accounts': list(map((lambda account: account.__dict__), accounts))}
         return accounts
+
+    @app.route('/accounts/<account_id>')
+    def get_account(account_id):
+        controller = Controller()
+        account = controller.get_account(account_id)
+        if account is not None:
+            return account.__dict__
+        return make_response({'status': 404, 'error': 'not found', 'message': 'account not found'}, 404)
 
     @app.route('/entries')
     def all_entries():

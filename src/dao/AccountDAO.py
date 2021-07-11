@@ -15,9 +15,14 @@ class AccountDAO:
     def get_by_id(self, account_id):
         command = "SELECT * FROM account WHERE account_id={0}".format(account_id)
 
-        result = self._sqlite_conn.execute_and_fetch(command)[0]
+        result = self._sqlite_conn.execute_and_fetch(command)
+        if len(result) > 0:
+            result = self.register_to_object(result[0])
+        else:
+            print("Account with id='{0}' not found on database".format(account_id))
+            result = None
 
-        return self.register_to_object(result)
+        return result
 
     def get_all(self):
         command = "SELECT * FROM account"

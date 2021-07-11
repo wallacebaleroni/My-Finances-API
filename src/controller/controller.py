@@ -7,8 +7,11 @@ class Controller:
         self.entryDAO = EntryDAO()
         self.accountDAO = AccountDAO()
 
-    def get_all_entries(self):
-        return self.entryDAO.get_all()
-
     def get_all_accounts(self):
         return self.accountDAO.get_all()
+
+    def get_account(self, account_id):
+        return self.accountDAO.get_by_id(account_id)
+
+    def get_all_entries(self):
+        return self.entryDAO.get_all()

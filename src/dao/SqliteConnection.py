@@ -31,6 +31,12 @@ class SqliteConnection:
         self._cursor.close()
         self._connection.close()
 
+    def execute(self, command):
+        # Maybe this should have a try/catch
+        self._cursor.execute(command)
+        self._connection.commit()
+        return True
+
     def execute_and_fetch(self, command):
         # Maybe this should have a try/catch
         self._cursor.execute(command)
