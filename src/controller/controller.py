@@ -12,6 +12,14 @@ def get_account(account_id):
     return accountDAO.get_by_id(account_id)
 
 
+def get_entries_by_account(account_id):
+    if get_account(account_id) is None:
+        return None
+
+    entryDAO = EntryDAO()
+    return entryDAO.get_by_account_id(account_id)
+
+
 def create_account(name, account_type, color):
     accountDAO = AccountDAO()
     new_account = Account(-1, name, AccountType(account_type), color)

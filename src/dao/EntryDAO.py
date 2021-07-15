@@ -17,13 +17,17 @@ class EntryDAO:
         command = "SELECT * FROM entry"
         results = execute_and_fetch(command)
         if results is None:
-            return []
+            return list
 
-        entries = []
-        for result in results:
-            entries.append(self.register_to_object(result))
+        return list(map(self.register_to_object, results))
 
-        return entries
+    def get_by_account_id(self, account_id):
+        command = "SELECT * FROM entry WHERE account_id={0}".format(account_id)
+        results = execute_and_fetch(command)
+        if results is None:
+            return list()
+
+        return list(map(self.register_to_object, results))
 
     def register_to_object(self, register):
         accountDAO = AccountDAO()

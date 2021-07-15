@@ -36,6 +36,13 @@ def define_routes(app):
             return account.__dict__()
         return make_response({'status': 404, 'error': 'not found', 'message': 'account not found'}, 404)
 
+    @app.route('/accounts/<account_id>/entries')
+    def get_account_entries(account_id):
+        entries = get_entries_by_account(account_id)
+        if entries is not None:
+            return {'entries': list(map((lambda entry: entry.__dict__()), entries))}
+        return make_response({'status': 404, 'error': 'not found', 'message': 'account not found'}, 404)
+
     @app.route('/accounts', methods=['POST'])
     def add_account():
         name = request.form['name']

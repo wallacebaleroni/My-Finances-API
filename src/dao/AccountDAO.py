@@ -25,13 +25,9 @@ class AccountDAO:
         command = "SELECT * FROM account"
         results = execute_and_fetch(command)
         if results is None:
-            return []
+            return list
 
-        accounts = []
-        for result in results:
-            accounts.append(self.register_to_object(result))
-
-        return accounts
+        return list(map(self.register_to_object, results))
 
     def save(self, account):
         command = "INSERT INTO account(name, type, color) VALUES('{0}', '{1}', '{2}')"\
