@@ -14,7 +14,7 @@ def main():
 def define_routes(app):
     @app.route('/')
     def index():
-        return """<h3>Planejamento Financeiro</h3>
+        return """<h3>My Finances</h3>
                   <h4>Help</h4>
                   <ul>
                   <li>GET - <code>/accounts</code> - Lists all accounts</li>
