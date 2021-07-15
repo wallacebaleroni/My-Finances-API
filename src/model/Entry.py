@@ -22,5 +22,11 @@ class Entry:
     def get_value(self):
         return self.value / 100
 
+    def set_id(self, entry_id):
+        self.entry_id = entry_id
+
+    def set_seq(self, seq):
+        self.seq = seq
+
     def get_formatted_value(self):
         return "{value:.2f}".format(value=self.get_value())

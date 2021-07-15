@@ -222,14 +222,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/accounts/1/entries",
+					"raw": "localhost:5000/accounts/2/entries",
 					"host": [
 						"localhost"
 					],
 					"port": "5000",
 					"path": [
 						"accounts",
-						"1",
+						"2",
 						"entries"
 					]
 				}
@@ -376,6 +376,81 @@
 			"request": {
 				"method": "GET",
 				"header": [],
+				"url": {
+					"raw": "localhost:5000/entries",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"entries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add entry",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "account_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "15/07/2021",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "YIELD",
+							"type": "text"
+						},
+						{
+							"key": "value",
+							"value": "550",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Teste",
+							"type": "text"
+						},
+						{
+							"key": "commentary",
+							"value": "Teste",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
 					"raw": "localhost:5000/entries",
 					"host": [

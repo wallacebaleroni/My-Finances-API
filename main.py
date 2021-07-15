@@ -48,6 +48,7 @@ def define_routes(app):
         name = request.form['name']
         account_type = request.form['type']
         color = request.form['color']
+
         created_account = create_account(name, account_type, color)
         if created_account is not None:
             account_dict = created_account.__dict__()
@@ -59,6 +60,21 @@ def define_routes(app):
         entries = get_all_entries()
         entries = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
         return entries
+
+    @app.route('/entries', methods=['POST'])
+    def add_entry():
+        account_id = int(request.form['account_id'])
+        date = request.form['date']
+        category = request.form['category']
+        value = int(request.form['value'])
+        description = request.form['description']
+        commentary = request.form['commentary']
+
+        created_entry = create_entry(account_id, date, category, value, description, commentary)
+        if created_entry is not None:
+            account_dict = created_entry.__dict__()
+            return make_response(account_dict, 201)
+        return make_response({'status': 400, 'error': 'bad request', 'message': 'could not create account'}, 400)
 
 
 main()

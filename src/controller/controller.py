@@ -23,9 +23,9 @@ def get_entries_by_account(account_id):
 def create_account(name, account_type, color):
     accountDAO = AccountDAO()
     new_account = Account(-1, name, AccountType(account_type), color)
-    result = accountDAO.save(new_account)
-    if result is not None:
-        new_account.set_id(result)
+    account_id = accountDAO.save(new_account)
+    if account_id is not None:
+        new_account.set_id(account_id)
         return new_account
     return None
 
@@ -33,6 +33,23 @@ def create_account(name, account_type, color):
 def get_all_entries():
     entryDAO = EntryDAO()
     return entryDAO.get_all()
+
+
+def create_entry(account_id, date, category, value, description, commentary):
+    entryDAO = EntryDAO()
+    accountDAO = AccountDAO()
+
+    account = accountDAO.get_by_id(account_id)
+    if account is None:
+        return None
+
+    new_entry = Entry(-1, account, date, -1, category, value, description, commentary)
+    entry_id, seq = entryDAO.save(new_entry)
+    if entry_id is not None:
+        new_entry.set_id(entry_id)
+        new_entry.set_seq(seq)
+        return new_entry
+    return None
 
 
 def create_database():
