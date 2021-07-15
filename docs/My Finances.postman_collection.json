@@ -284,6 +284,38 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Entry by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Retorna OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/entries/{{valid_entry_id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"entries",
+						"{{valid_entry_id}}"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [

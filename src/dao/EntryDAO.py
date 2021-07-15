@@ -13,6 +13,18 @@ class EntryDAO:
     DESCRIPTION_REGISTER_INDEX = 6
     COMMENTARY_REGISTER_INDEX = 7
 
+    def get_by_id(self, entry_id):
+        command = "SELECT * FROM entry WHERE entry_id={0}".format(entry_id)
+
+        result = execute_and_fetch(command)
+        if len(result) > 0:
+            result = self.register_to_object(result[0])
+        else:
+            print("Entry with id='{0}' not found on database".format(entry_id))
+            result = None
+
+        return result
+
     def get_all(self):
         command = "SELECT * FROM entry"
         results = execute_and_fetch(command)

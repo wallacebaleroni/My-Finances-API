@@ -390,6 +390,70 @@
 			"response": []
 		},
 		{
+			"name": "Entry by valid ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/entries/{{valid_entry_id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"entries",
+						"{{valid_entry_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entry by invalid ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/entries/{{invalid_entry_id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"entries",
+						"{{invalid_entry_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Add entry",
 			"event": [
 				{

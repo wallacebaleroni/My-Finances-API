@@ -61,6 +61,13 @@ def define_routes(app):
         entries = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
         return entries
 
+    @app.route('/entries/<entry_id>')
+    def get_entry_details(entry_id):
+        entry = get_entry(entry_id)
+        if entry is not None:
+            return entry.__dict__()
+        return make_response({'status': 404, 'error': 'not found', 'message': 'entry not found'}, 404)
+
     @app.route('/entries', methods=['POST'])
     def add_entry():
         account_id = int(request.form['account_id'])

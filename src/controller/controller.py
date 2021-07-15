@@ -35,6 +35,11 @@ def get_all_entries():
     return entryDAO.get_all()
 
 
+def get_entry(entry_id):
+    entryDAO = EntryDAO()
+    return entryDAO.get_by_id(entry_id)
+
+
 def create_entry(account_id, date, category, value, description, commentary):
     entryDAO = EntryDAO()
     accountDAO = AccountDAO()
