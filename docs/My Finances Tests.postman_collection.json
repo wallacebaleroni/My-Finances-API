@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "20c8a59c-9000-4834-9ed9-87d2396197dd",
+		"_postman_id": "500dbc3b-f0bf-40c3-a6d5-4748d0966406",
 		"name": "My Finances Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -37,7 +37,7 @@
 			"response": []
 		},
 		{
-			"name": "All Acounts",
+			"name": "All acounts",
 			"event": [
 				{
 					"listen": "test",
@@ -68,13 +68,13 @@
 			"response": []
 		},
 		{
-			"name": "Account by Valid ID",
+			"name": "Account by valid ID",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
+							" pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
@@ -100,7 +100,7 @@
 			"response": []
 		},
 		{
-			"name": "Account by Invalid ID",
+			"name": "Account by invalid ID",
 			"event": [
 				{
 					"listen": "test",
@@ -132,7 +132,112 @@
 			"response": []
 		},
 		{
-			"name": "Add Valid Account",
+			"name": "Account entries with valid account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							" });\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/accounts/3/entries",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"accounts",
+						"3",
+						"entries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account entries with invalid Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/accounts/0/entries",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"accounts",
+						"0",
+						"entries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account entries with empty response",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							" });\r",
+							"\r",
+							"pm.test(\"Empty entries\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.entries).to.eql([]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/accounts/1/entries",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"accounts",
+						"1",
+						"entries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add valid account",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -194,7 +299,7 @@
 			"response": []
 		},
 		{
-			"name": "Add Invalid Account",
+			"name": "Add invalid account",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -254,7 +359,7 @@
 			"response": []
 		},
 		{
-			"name": "All Entries",
+			"name": "All entries",
 			"event": [
 				{
 					"listen": "test",
