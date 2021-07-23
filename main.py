@@ -27,21 +27,34 @@ def define_routes(app):
     def all_accounts():
         accounts = get_all_accounts()
         accounts = {'accounts': list(map((lambda account: account.__dict__()), accounts))}
+        print(accounts)
         return accounts
 
     @app.route('/accounts/<account_id>')
     def get_account_details(account_id):
         account = get_account(account_id)
+
         if account is not None:
-            return account.__dict__()
-        return make_response({'status': 404, 'error': 'not found', 'message': 'account not found'}, 404)
+            response = account.__dict__()
+            print(response)
+            return response
+
+        response = {'status': 404, 'error': 'not found', 'message': 'account not found'}
+        print(response)
+        return make_response(response, 404)
 
     @app.route('/accounts/<account_id>/entries')
     def get_account_entries(account_id):
         entries = get_entries_by_account(account_id)
+
         if entries is not None:
-            return {'entries': list(map((lambda entry: entry.__dict__()), entries))}
-        return make_response({'status': 404, 'error': 'not found', 'message': 'account not found'}, 404)
+            response = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
+            print(response)
+            return response
+
+        response = {'status': 404, 'error': 'not found', 'message': 'account not found'}
+        print(response)
+        return make_response(response, 404)
 
     @app.route('/accounts', methods=['POST'])
     def add_account():
@@ -51,22 +64,33 @@ def define_routes(app):
 
         created_account = create_account(name, account_type, color)
         if created_account is not None:
-            account_dict = created_account.__dict__()
-            return make_response(account_dict, 201)
-        return make_response({'status': 400, 'error': 'bad request', 'message': 'could not create account'}, 400)
+            response = created_account.__dict__()
+            print(response)
+            return make_response(response, 201)
+
+        response = {'status': 400, 'error': 'bad request', 'message': 'could not create account'}
+        print(response)
+        return make_response(response, 400)
 
     @app.route('/entries')
     def all_entries():
         entries = get_all_entries()
-        entries = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
-        return entries
+        response = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
+        print(response)
+        return response
 
     @app.route('/entries/<entry_id>')
     def get_entry_details(entry_id):
         entry = get_entry(entry_id)
+
         if entry is not None:
-            return entry.__dict__()
-        return make_response({'status': 404, 'error': 'not found', 'message': 'entry not found'}, 404)
+            response = entry.__dict__()
+            print(response)
+            return response
+
+        response = {'status': 404, 'error': 'not found', 'message': 'entry not found'}
+        print(response)
+        return make_response(response, 404)
 
     @app.route('/entries', methods=['POST'])
     def add_entry():
@@ -78,10 +102,15 @@ def define_routes(app):
         commentary = request.form['commentary']
 
         created_entry = create_entry(account_id, date, category, value, description, commentary)
+
         if created_entry is not None:
-            account_dict = created_entry.__dict__()
-            return make_response(account_dict, 201)
-        return make_response({'status': 400, 'error': 'bad request', 'message': 'could not create account'}, 400)
+            response = created_entry.__dict__()
+            print(response)
+            return make_response(response, 201)
+
+        response = {'status': 400, 'error': 'bad request', 'message': 'could not create account'}
+        print(response)
+        return make_response(response, 400)
 
 
 main()
