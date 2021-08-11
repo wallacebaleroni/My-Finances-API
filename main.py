@@ -1,4 +1,5 @@
 from flask import Flask, request, make_response
+from flask_cors import cross_origin
 from src.controller.controller import *
 
 
@@ -13,6 +14,7 @@ def main():
 
 def define_routes(app):
     @app.route('/')
+    @cross_origin()
     def index():
         return """<h3>My Finances</h3>
                   <h4>Help</h4>
@@ -24,6 +26,7 @@ def define_routes(app):
                   </ul>"""
 
     @app.route('/accounts')
+    @cross_origin()
     def all_accounts():
         accounts = get_all_accounts()
         accounts = {'accounts': list(map((lambda account: account.__dict__()), accounts))}
@@ -31,6 +34,7 @@ def define_routes(app):
         return accounts
 
     @app.route('/accounts/<account_id>')
+    @cross_origin()
     def get_account_details(account_id):
         account = get_account(account_id)
 
@@ -44,6 +48,7 @@ def define_routes(app):
         return make_response(response, 404)
 
     @app.route('/accounts/<account_id>/entries')
+    @cross_origin()
     def get_account_entries(account_id):
         entries = get_entries_by_account(account_id)
 
@@ -57,6 +62,7 @@ def define_routes(app):
         return make_response(response, 404)
 
     @app.route('/accounts', methods=['POST'])
+    @cross_origin()
     def add_account():
         if request.is_json:
             content = request.get_json()
@@ -78,6 +84,7 @@ def define_routes(app):
         return make_response(response, 400)
 
     @app.route('/entries')
+    @cross_origin()
     def all_entries():
         entries = get_all_entries()
         response = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
@@ -85,6 +92,7 @@ def define_routes(app):
         return response
 
     @app.route('/entries/<entry_id>')
+    @cross_origin()
     def get_entry_details(entry_id):
         entry = get_entry(entry_id)
 
@@ -98,6 +106,7 @@ def define_routes(app):
         return make_response(response, 404)
 
     @app.route('/entries', methods=['POST'])
+    @cross_origin()
     def add_entry():
         if request.is_json:
             content = request.get_json()
