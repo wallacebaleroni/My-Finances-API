@@ -58,9 +58,14 @@ def define_routes(app):
 
     @app.route('/accounts', methods=['POST'])
     def add_account():
-        name = request.form['name']
-        account_type = request.form['type']
-        color = request.form['color']
+        if request.is_json:
+            content = request.get_json()
+        else:
+            content = request.form
+
+        name = content['name']
+        account_type = content['type']
+        color = content['color']
 
         created_account = create_account(name, account_type, color)
         if created_account is not None:
@@ -94,12 +99,17 @@ def define_routes(app):
 
     @app.route('/entries', methods=['POST'])
     def add_entry():
-        account_id = int(request.form['account_id'])
-        date = request.form['date']
-        category = request.form['category']
-        value = int(request.form['value'])
-        description = request.form['description']
-        commentary = request.form['commentary']
+        if request.is_json:
+            content = request.get_json()
+        else:
+            content = request.form
+
+        account_id = int(content['account_id'])
+        date = content['date']
+        category = content['category']
+        value = int(content['value'])
+        description = content['description']
+        commentary = content['commentary']
 
         created_entry = create_entry(account_id, date, category, value, description, commentary)
 
