@@ -52,7 +52,7 @@ class EntryDAO:
         new_seq = self.get_last_seq(entry.date) + 1
         command = "INSERT INTO entry(account_id, date, seq, category, value, description, commentary) " \
                   "VALUES({0}, '{1}', {2}, '{3}', {4}, '{5}', '{6}');"\
-            .format(entry.account.id, entry.date, new_seq, entry.category, entry.value, entry.description,
+            .format(entry.account.account_id, entry.date, new_seq, entry.category, entry.value, entry.description,
                     entry.commentary)
         result = execute(command)
         return result, new_seq
