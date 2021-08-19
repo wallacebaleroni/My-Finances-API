@@ -1,6 +1,7 @@
 from flask import Flask, request, make_response
 from flask_cors import cross_origin
 from src.controller.controller import *
+from src.util.MessageLog import log_request, log_response
 
 
 def main():
@@ -13,52 +14,47 @@ def main():
 
 
 def define_routes(app):
-    @app.route('/')
-    @cross_origin()
-    def index():
-        return """<h3>My Finances</h3>
-                  <h4>Help</h4>
-                  <ul>
-                  <li>GET - <code>/accounts</code> - Lists all accounts</li>
-                  <li>GET - <code>/accounts/&lt;id&gt;</code> - Lists specific account</li>
-                  <li>POST - <code>/accounts</code> - Creates a new account</li>
-                  <li>GET - <code>/entries</code> - Lists all entries</li>
-                  </ul>"""
-
     @app.route('/accounts')
     @cross_origin()
     def all_accounts():
+        log_request(request.path)
+
         accounts = get_all_accounts()
-        accounts = {'accounts': list(map((lambda account: account.__dict__()), accounts))}
-        print(accounts)
-        return accounts
+        response = {'accounts': list(map((lambda account: account.__dict__()), accounts))}
+
+        log_response(response)
+
+        return response
 
     @app.route('/accounts/<account_id>')
     @cross_origin()
     def get_account_details(account_id):
-        account = get_account(account_id)
+        log_request(request.path)
 
+        account = get_account(account_id)
         if account is not None:
             response = account.__dict__()
-            print(response)
+            log_response(response)
             return response
 
         response = {'status': 404, 'error': 'not found', 'message': 'account not found'}
-        print(response)
+        log_response(response)
         return make_response(response, 404)
 
     @app.route('/accounts/<account_id>/entries')
     @cross_origin()
     def get_account_entries(account_id):
+        log_request(request.path)
+
         entries = get_entries_by_account(account_id)
 
         if entries is not None:
             response = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
-            print(response)
+            log_response(response)
             return response
 
         response = {'status': 404, 'error': 'not found', 'message': 'account not found'}
-        print(response)
+        log_response(response)
         return make_response(response, 404)
 
     @app.route('/accounts', methods=['POST'])
@@ -69,6 +65,8 @@ def define_routes(app):
         else:
             content = request.form
 
+        log_request(request.path, content)
+
         name = content['name']
         account_type = content['type']
         color = content['color']
@@ -76,33 +74,38 @@ def define_routes(app):
         created_account = create_account(name, account_type, color)
         if created_account is not None:
             response = created_account.__dict__()
-            print(response)
+            log_response(response)
             return make_response(response, 201)
 
         response = {'status': 400, 'error': 'bad request', 'message': 'could not create account'}
-        print(response)
+        log_response(response)
         return make_response(response, 400)
 
     @app.route('/entries')
     @cross_origin()
     def all_entries():
+        log_request(request.path)
+
         entries = get_all_entries()
         response = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
-        print(response)
+
+        log_response(response)
+
         return response
 
     @app.route('/entries/<entry_id>')
     @cross_origin()
     def get_entry_details(entry_id):
-        entry = get_entry(entry_id)
+        log_request(request.path)
 
+        entry = get_entry(entry_id)
         if entry is not None:
             response = entry.__dict__()
-            print(response)
+            log_response(response)
             return response
 
         response = {'status': 404, 'error': 'not found', 'message': 'entry not found'}
-        print(response)
+        log_response(response)
         return make_response(response, 404)
 
     @app.route('/entries', methods=['POST'])
@@ -113,6 +116,8 @@ def define_routes(app):
         else:
             content = request.form
 
+        log_request(request.path, content)
+
         account_id = int(content['account_id'])
         date = content['date']
         category = content['category']
@@ -121,14 +126,13 @@ def define_routes(app):
         commentary = content['commentary']
 
         created_entry = create_entry(account_id, date, category, value, description, commentary)
-
         if created_entry is not None:
             response = created_entry.__dict__()
-            print(response)
+            log_response(response)
             return make_response(response, 201)
 
         response = {'status': 400, 'error': 'bad request', 'message': 'could not create account'}
-        print(response)
+        log_response(response)
         return make_response(response, 400)
 
 
