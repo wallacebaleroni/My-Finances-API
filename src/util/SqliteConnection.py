@@ -57,43 +57,56 @@ def create():
 
     try:
         if params.is_test:
-            cursor.execute("""DROP TABLE IF EXISTS account""")
-            cursor.execute("""DROP TABLE IF EXISTS entry""")
+            drop_tables(cursor)
 
-        cursor.execute("""CREATE TABLE IF NOT EXISTS account(
-                                account_id  INTEGER     PRIMARY KEY     AUTOINCREMENT,
-                                name        TEXT        NOT NULL,
-                                type        TEXT        NOT NULL,
-                                color       TEXT,
-                                UNIQUE(name)
-                                )""")
-        cursor.execute("""CREATE TABLE IF NOT EXISTS entry(
-                                entry_id            INTEGER     PRIMARY KEY     AUTOINCREMENT,
-                                origin_account_id   INTEGER     NOT NULL,
-                                destiny_account_id  INTEGER,
-                                date                TEXT        NOT NULL,
-                                seq                 INTEGER     NOT NULL,
-                                category            TEXT        NOT NULL,
-                                value               INTEGER     NOT NULL,
-                                description         TEXT,
-                                commentary          TEXT,
-                                FOREIGN KEY(origin_account_id) REFERENCES account(account_id),
-                                FOREIGN KEY(destiny_account_id) REFERENCES account(account_id)
-                                )""")
+        create_tables(cursor)
 
         if params.is_test:
-            cursor.execute("INSERT INTO account(name, type, color) VALUES ('Cartão', 'CREDIT_CARD', '#8e7cc3')")
-            cursor.execute("INSERT INTO account(name, type, color) VALUES ('Santander', 'CHECKING_ACCOUNT', '#e06666')")
-            cursor.execute("INSERT INTO account(name, type, color) VALUES ('NuConta', 'CHECKING_ACCOUNT', '#8e7cc3')")
-            cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
-                              VALUES(1, '09/07/2021', 0, 'YIELD', 118, 'Rendimento NuConta', '');""")
-            cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
-                              VALUES(2, '09/07/2021', 1, 'YIELD', 253, 'Rendimento PicPay', '');""")
-            cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
-                              VALUES(1, '09/07/2021', 2, 'YIELD', 263, 'Rendimento NuConta', '');""")
+            populate(cursor)
+
         connection.commit()
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
         print("Exception class is: ", er.__class__)
     finally:
         close_sqlite_connection(connection, cursor)
+
+
+def drop_tables(cursor):
+    cursor.execute("""DROP TABLE IF EXISTS account""")
+    cursor.execute("""DROP TABLE IF EXISTS entry""")
+
+
+def create_tables(cursor):
+    cursor.execute("""CREATE TABLE IF NOT EXISTS account(
+                                    account_id  INTEGER     PRIMARY KEY     AUTOINCREMENT,
+                                    name        TEXT        NOT NULL,
+                                    type        TEXT        NOT NULL,
+                                    color       TEXT,
+                                    UNIQUE(name)
+                                    )""")
+    cursor.execute("""CREATE TABLE IF NOT EXISTS entry(
+                                    entry_id            INTEGER     PRIMARY KEY     AUTOINCREMENT,
+                                    origin_account_id   INTEGER     NOT NULL,
+                                    destiny_account_id  INTEGER,
+                                    date                TEXT        NOT NULL,
+                                    seq                 INTEGER     NOT NULL,
+                                    category            TEXT        NOT NULL,
+                                    value               INTEGER     NOT NULL,
+                                    description         TEXT,
+                                    commentary          TEXT,
+                                    FOREIGN KEY(origin_account_id) REFERENCES account(account_id),
+                                    FOREIGN KEY(destiny_account_id) REFERENCES account(account_id)
+                                    )""")
+
+
+def populate(cursor):
+    cursor.execute("INSERT INTO account(name, type, color) VALUES ('Cartão', 'CREDIT_CARD', '#8e7cc3')")
+    cursor.execute("INSERT INTO account(name, type, color) VALUES ('Santander', 'CHECKING_ACCOUNT', '#e06666')")
+    cursor.execute("INSERT INTO account(name, type, color) VALUES ('NuConta', 'CHECKING_ACCOUNT', '#8e7cc3')")
+    cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
+                                  VALUES(1, '09/07/2021', 0, 'YIELD', 118, 'Rendimento NuConta', '');""")
+    cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
+                                  VALUES(2, '09/07/2021', 1, 'YIELD', 253, 'Rendimento PicPay', '');""")
+    cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
+                                  VALUES(1, '09/07/2021', 2, 'YIELD', 263, 'Rendimento NuConta', '');""")

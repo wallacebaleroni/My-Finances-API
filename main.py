@@ -68,9 +68,14 @@ def define_routes(app):
 
         log_request(request.path, content)
 
-        name = content['name']
-        account_type = content['type']
-        color = content['color']
+        try:
+            name = get_field(content, 'name', required=True, is_number=True)
+            account_type = get_field(content, 'type', required=True)
+            color = get_field(content, 'color')
+        except KeyError as exception:
+            response = {'status': 400, 'error': 'bad request', 'message': exception.args[0]}
+            log_response(response)
+            return make_response(response, 400)
 
         created_account = create_account(name, account_type, color)
         if created_account is not None:
@@ -121,14 +126,14 @@ def define_routes(app):
 
         try:
             origin_account_id = get_field(content, 'origin_account_id', required=True, is_number=True)
-            destiny_account_id = get_field(content, 'destiny_account_id', required=False, is_number=True)
+            destiny_account_id = get_field(content, 'destiny_account_id', is_number=True)
             date = get_field(content, 'date', required=True)
             category = get_field(content, 'category', required=True)
             value = get_field(content, 'value', required=True, is_number=True)
-            description = get_field(content, 'description', required=False)
-            commentary = get_field(content, 'commentary', required=False)
+            description = get_field(content, 'description')
+            commentary = get_field(content, 'commentary')
         except KeyError as exception:
-            response = {'status': 400, 'error': 'bad request', 'message': exception}
+            response = {'status': 400, 'error': 'bad request', 'message': exception.args[0]}
             log_response(response)
             return make_response(response, 400)
 

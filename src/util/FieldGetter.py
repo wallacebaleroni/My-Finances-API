@@ -1,6 +1,6 @@
 def get_field(content, field, required=False, is_number=False):
     if required and field not in content.keys():
-        return KeyError("{0} is required".format(field))
+        raise KeyError("{0} field is required".format(field))
 
     value = content.get(field)
     if is_number:

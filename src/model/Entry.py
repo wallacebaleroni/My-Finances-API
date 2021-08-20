@@ -17,15 +17,17 @@ class Entry:
                                                               self.category, value, self.description, self.commentary)
 
     def __dict__(self):
-        if self.destiny_account is None:
-            destiny_account_id = None
-        else:
-            destiny_account_id = self.destiny_account.account_id
+        entry_dict = {'entry_id': self.entry_id, 'origin_account_id': self.origin_account.account_id,
+                      'date': self.date, 'seq': self.seq, 'category': self.category, 'value': self.value}
 
-        return {'entry_id': self.entry_id, 'origin_account_id': self.origin_account.account_id,
-                'destiny_account_id': destiny_account_id, 'date': self.date, 'seq': self.seq,
-                'category': self.category, 'value': self.value, 'description': self.description,
-                'commentary': self.commentary}
+        if self.destiny_account is not None:
+            entry_dict['destiny_account_id'] = self.destiny_account.account_id
+        if self.description is not None and self.description != "":
+            entry_dict['description'] = self.description
+        if self.commentary is not None and self.commentary != "":
+            entry_dict['commentary'] = self.commentary
+
+        return entry_dict
 
     def get_value(self):
         return self.value / 100
