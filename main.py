@@ -2,6 +2,7 @@ from flask import Flask, request, make_response
 from flask_cors import cross_origin
 from src.controller.controller import *
 from src.util.MessageLog import log_request, log_response
+from src.util.FieldGetter import *
 
 
 def main():
@@ -118,14 +119,21 @@ def define_routes(app):
 
         log_request(request.path, content)
 
-        account_id = int(content['account_id'])
-        date = content['date']
-        category = content['category']
-        value = int(content['value'])
-        description = content['description']
-        commentary = content['commentary']
+        try:
+            origin_account_id = get_field(content, 'origin_account_id', required=True, is_number=True)
+            destiny_account_id = get_field(content, 'destiny_account_id', required=False, is_number=True)
+            date = get_field(content, 'date', required=True)
+            category = get_field(content, 'category', required=True)
+            value = get_field(content, 'value', required=True, is_number=True)
+            description = get_field(content, 'description', required=False)
+            commentary = get_field(content, 'commentary', required=False)
+        except KeyError as exception:
+            response = {'status': 400, 'error': 'bad request', 'message': exception}
+            log_response(response)
+            return make_response(response, 400)
 
-        created_entry = create_entry(account_id, date, category, value, description, commentary)
+        created_entry = create_entry(origin_account_id, destiny_account_id, date,
+                                     category, value, description, commentary)
         if created_entry is not None:
             response = created_entry.__dict__()
             log_response(response)

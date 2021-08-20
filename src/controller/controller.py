@@ -40,15 +40,19 @@ def get_entry(entry_id):
     return entryDAO.get_by_id(entry_id)
 
 
-def create_entry(account_id, date, category, value, description, commentary):
+def create_entry(origin_account_id, destiny_account_id, date, category, value, description, commentary):
     entryDAO = EntryDAO()
     accountDAO = AccountDAO()
 
-    account = accountDAO.get_by_id(account_id)
-    if account is None:
+    origin_account = accountDAO.get_by_id(origin_account_id)
+    if origin_account is None:
         return None
 
-    new_entry = Entry(-1, account, date, -1, category, value, description, commentary)
+    destiny_account = None
+    if destiny_account_id is not None:
+        destiny_account = accountDAO.get_by_id(destiny_account_id)
+
+    new_entry = Entry(-1, origin_account, destiny_account, date, -1, category, value, description, commentary)
     entry_id, seq = entryDAO.save(new_entry)
     if entry_id is not None:
         new_entry.set_id(entry_id)

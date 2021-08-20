@@ -21,6 +21,7 @@ def execute(command):
         connection.commit()
         result = cursor.lastrowid
     except sqlite3.Error as er:
+        print('Query: ' + command)
         print('SQLite error: %s' % (' '.join(er.args)))
         print("Exception class is: ", er.__class__)
         result = None
@@ -38,6 +39,7 @@ def execute_and_fetch(command):
         connection.commit()
         result = cursor.fetchall()
     except sqlite3.Error as er:
+        print('Query: ' + command)
         print('SQLite error: %s' % (' '.join(er.args)))
         print("Exception class is: ", er.__class__)
         result = None
@@ -58,15 +60,17 @@ def create():
                                 color       TEXT
                                 )""")
         cursor.execute("""CREATE TABLE IF NOT EXISTS entry(
-                                entry_id    INTEGER     PRIMARY KEY     AUTOINCREMENT,
-                                account_id  INTEGER     NOT NULL,
-                                date        TEXT        NOT NULL,
-                                seq         INTEGER     NOT NULL,
-                                category    TEXT        NOT NULL,
-                                value       INTEGER     NOT NULL,
-                                description TEXT,
-                                commentary  TEXT,
-                                FOREIGN KEY(account_id) REFERENCES account(account_id)
+                                entry_id            INTEGER     PRIMARY KEY     AUTOINCREMENT,
+                                origin_account_id   INTEGER     NOT NULL,
+                                destiny_account_id  INTEGER,
+                                date                TEXT        NOT NULL,
+                                seq                 INTEGER     NOT NULL,
+                                category            TEXT        NOT NULL,
+                                value               INTEGER     NOT NULL,
+                                description         TEXT,
+                                commentary          TEXT,
+                                FOREIGN KEY(origin_account_id) REFERENCES account(account_id),
+                                FOREIGN KEY(destiny_account_id) REFERENCES account(account_id)
                                 )""")
         connection.commit()
     except sqlite3.Error as er:

@@ -5,13 +5,14 @@ from src.dao.AccountDAO import AccountDAO
 
 class EntryDAO:
     ENTRY_ID_REGISTER_INDEX = 0
-    ACCOUNT_ID_REGISTER_INDEX = 1
-    DATE_REGISTER_INDEX = 2
-    SEQ_REGISTER_INDEX = 3
-    CATEGORY_REGISTER_INDEX = 4
-    VALUE_REGISTER_INDEX = 5
-    DESCRIPTION_REGISTER_INDEX = 6
-    COMMENTARY_REGISTER_INDEX = 7
+    ORIGIN_ACCOUNT_ID_REGISTER_INDEX = 1
+    DESTINY_ACCOUNT_ID_REGISTER_INDEX = 2
+    DATE_REGISTER_INDEX = 3
+    SEQ_REGISTER_INDEX = 4
+    CATEGORY_REGISTER_INDEX = 5
+    VALUE_REGISTER_INDEX = 6
+    DESCRIPTION_REGISTER_INDEX = 7
+    COMMENTARY_REGISTER_INDEX = 8
 
     def get_by_id(self, entry_id):
         command = "SELECT * FROM entry WHERE entry_id={0}".format(entry_id)
@@ -34,7 +35,7 @@ class EntryDAO:
         return list(map(self.register_to_object, results))
 
     def get_by_account_id(self, account_id):
-        command = "SELECT * FROM entry WHERE account_id={0}".format(account_id)
+        command = "SELECT * FROM entry WHERE origin_account_id={0} OR destiny_account_id={0}".format(account_id)
         results = execute_and_fetch(command)
         if results is None:
             return list()
@@ -50,10 +51,17 @@ class EntryDAO:
 
     def save(self, entry):
         new_seq = self.get_last_seq(entry.date) + 1
-        command = "INSERT INTO entry(account_id, date, seq, category, value, description, commentary) " \
-                  "VALUES({0}, '{1}', {2}, '{3}', {4}, '{5}', '{6}');"\
-            .format(entry.account.account_id, entry.date, new_seq, entry.category, entry.value, entry.description,
-                    entry.commentary)
+
+        if entry.destiny_account is not None:
+            destiny_account_id = entry.destiny_account.account_id
+        else:
+            destiny_account_id = "NULL"
+
+        command = "INSERT INTO " \
+                  "entry(origin_account_id, destiny_account_id, date, seq, category, value, description, commentary) " \
+                  "VALUES({0}, {1}, '{2}', {3}, '{4}', {5}, '{6}', '{7}');" \
+            .format(entry.origin_account.account_id, destiny_account_id, entry.date, new_seq,
+                    entry.category, entry.value, entry.description, entry.commentary)
         result = execute(command)
         return result, new_seq
 
@@ -61,18 +69,16 @@ class EntryDAO:
         accountDAO = AccountDAO()
 
         entry_id = register[self.ENTRY_ID_REGISTER_INDEX]
-        account = accountDAO.get_by_id(register[self.ACCOUNT_ID_REGISTER_INDEX])
+        origin_account = accountDAO.get_by_id(register[self.ORIGIN_ACCOUNT_ID_REGISTER_INDEX])
+        if register[self.DESTINY_ACCOUNT_ID_REGISTER_INDEX] is not None:
+            destiny_account = accountDAO.get_by_id(register[self.DESTINY_ACCOUNT_ID_REGISTER_INDEX])
+        else:
+            destiny_account = None
         date = register[self.DATE_REGISTER_INDEX]
         seq = register[self.SEQ_REGISTER_INDEX]
         category = register[self.CATEGORY_REGISTER_INDEX]
         value = register[self.VALUE_REGISTER_INDEX]
-        if register[self.DESCRIPTION_REGISTER_INDEX] is not None:
-            description = register[self.DESCRIPTION_REGISTER_INDEX]
-        else:
-            description = ""
-        if register[self.COMMENTARY_REGISTER_INDEX] is not None:
-            commentary = register[self.COMMENTARY_REGISTER_INDEX]
-        else:
-            commentary = ""
+        description = register[self.DESCRIPTION_REGISTER_INDEX]
+        commentary = register[self.COMMENTARY_REGISTER_INDEX]
 
-        return Entry(entry_id, account, date, seq, category, value, description, commentary)
+        return Entry(entry_id, origin_account, destiny_account, date, seq, category, value, description, commentary)
