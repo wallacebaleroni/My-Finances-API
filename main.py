@@ -139,7 +139,7 @@ def define_routes(app):
             log_response(response)
             return make_response(response, 201)
 
-        response = {'status': 400, 'error': 'bad request', 'message': 'could not create account'}
+        response = {'status': 400, 'error': 'bad request', 'message': 'could not create entry'}
         log_response(response)
         return make_response(response, 400)
 
