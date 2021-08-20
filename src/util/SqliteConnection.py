@@ -1,8 +1,11 @@
 import sqlite3
+import res.params as params
 
 
 def open_sqlite_connection():
-    connection = sqlite3.connect("res/financeiro.db")
+    database_name = "financeiro_test" if params.is_test else "financeiro"
+
+    connection = sqlite3.connect("res/" + database_name + ".db")
     cursor = connection.cursor()
 
     return connection, cursor
@@ -53,11 +56,16 @@ def create():
     connection, cursor = open_sqlite_connection()
 
     try:
+        if params.is_test:
+            cursor.execute("""DROP TABLE IF EXISTS account""")
+            cursor.execute("""DROP TABLE IF EXISTS entry""")
+
         cursor.execute("""CREATE TABLE IF NOT EXISTS account(
                                 account_id  INTEGER     PRIMARY KEY     AUTOINCREMENT,
                                 name        TEXT        NOT NULL,
                                 type        TEXT        NOT NULL,
-                                color       TEXT
+                                color       TEXT,
+                                UNIQUE(name)
                                 )""")
         cursor.execute("""CREATE TABLE IF NOT EXISTS entry(
                                 entry_id            INTEGER     PRIMARY KEY     AUTOINCREMENT,
@@ -72,6 +80,17 @@ def create():
                                 FOREIGN KEY(origin_account_id) REFERENCES account(account_id),
                                 FOREIGN KEY(destiny_account_id) REFERENCES account(account_id)
                                 )""")
+
+        if params.is_test:
+            cursor.execute("INSERT INTO account(name, type, color) VALUES ('Cartão', 'CREDIT_CARD', '#8e7cc3')")
+            cursor.execute("INSERT INTO account(name, type, color) VALUES ('Santander', 'CHECKING_ACCOUNT', '#e06666')")
+            cursor.execute("INSERT INTO account(name, type, color) VALUES ('NuConta', 'CHECKING_ACCOUNT', '#8e7cc3')")
+            cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
+                              VALUES(1, '09/07/2021', 0, 'YIELD', 118, 'Rendimento NuConta', '');""")
+            cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
+                              VALUES(2, '09/07/2021', 1, 'YIELD', 253, 'Rendimento PicPay', '');""")
+            cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
+                              VALUES(1, '09/07/2021', 2, 'YIELD', 263, 'Rendimento NuConta', '');""")
         connection.commit()
     except sqlite3.Error as er:
         print('SQLite error: %s' % (' '.join(er.args)))
