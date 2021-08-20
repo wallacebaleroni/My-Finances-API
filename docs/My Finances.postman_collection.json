@@ -6,37 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "Index",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Retorna OK\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:5000/",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "All acounts",
 			"event": [
 				{
@@ -65,7 +34,52 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "All acounts",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/accounts",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "763"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.1 Python/3.9.6"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Aug 2021 02:10:01 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"accounts\": [\n        {\n            \"account_id\": 1,\n            \"color\": \"#8e7cc3\",\n            \"name\": \"Cartão\",\n            \"type\": \"CREDIT_CARD\"\n        },\n        {\n            \"account_id\": 2,\n            \"color\": \"#e06666\",\n            \"name\": \"Santander\",\n            \"type\": \"CHECKING_ACCOUNT\"\n        },\n        {\n            \"account_id\": 3,\n            \"color\": \"#8e7cc3\",\n            \"name\": \"NuConta\",\n            \"type\": \"CHECKING_ACCOUNT\"\n        },\n        {\n            \"account_id\": 4,\n            \"color\": \"#6aa84f\",\n            \"name\": \"PicPay\",\n            \"type\": \"CHECKING_ACCOUNT\"\n        },\n        {\n            \"account_id\": 5,\n            \"color\": \"#a694d3\",\n            \"name\": \"NuGuardado\",\n            \"type\": \"INVESTMENT\"\n        },\n        {\n            \"account_id\": 6,\n            \"color\": \"#6d9eeb\",\n            \"name\": \"TesouroDireto\",\n            \"type\": \"INVESTMENT\"\n        }\n    ]\n}"
+				}
+			]
 		},
 		{
 			"name": "Account by ID",
@@ -105,14 +119,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/accounts/3/entries",
+					"raw": "localhost:5000/accounts/1/entries",
 					"host": [
 						"localhost"
 					],
 					"port": "5000",
 					"path": [
 						"accounts",
-						"3",
+						"1",
 						"entries"
 					]
 				}
@@ -147,24 +161,13 @@
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "name",
-							"value": "Teste",
-							"type": "text"
-						},
-						{
-							"key": "type",
-							"value": "CHECKING_ACCOUNT",
-							"type": "text"
-						},
-						{
-							"key": "color",
-							"value": "#ffffff",
-							"type": "text"
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Teste\",\r\n    \"type\": \"CHECKING_ACCOUNT\",\r\n    \"color\": \"#000000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
-					]
+					}
 				},
 				"url": {
 					"raw": "localhost:5000/accounts",
@@ -208,7 +211,52 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "All entries",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/entries",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"entries"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1547"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.1 Python/3.9.6"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 20 Aug 2021 02:10:16 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"entries\": [\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"09/07/2021\",\n            \"description\": \"Rendimento NuConta\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 1,\n            \"origin_account_id\": 1,\n            \"seq\": 0,\n            \"value\": 118\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"09/07/2021\",\n            \"description\": \"Rendimento PicPay\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 2,\n            \"origin_account_id\": 2,\n            \"seq\": 1,\n            \"value\": 253\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"09/07/2021\",\n            \"description\": \"Rendimento NuConta\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 3,\n            \"origin_account_id\": 1,\n            \"seq\": 2,\n            \"value\": 263\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"15/07/2021\",\n            \"description\": \"\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 4,\n            \"origin_account_id\": 1,\n            \"seq\": 1,\n            \"value\": 550\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"15/07/2021\",\n            \"description\": \"\",\n            \"destiny_account_id\": 2,\n            \"entry_id\": 5,\n            \"origin_account_id\": 1,\n            \"seq\": 2,\n            \"value\": 550\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"15/07/2021\",\n            \"description\": \"\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 6,\n            \"origin_account_id\": 1,\n            \"seq\": 3,\n            \"value\": 550\n        }\n    ]\n}"
+				}
+			]
 		},
 		{
 			"name": "Add entry",

@@ -6,37 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "Index",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Retorna OK\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:5000/",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "All acounts",
 			"event": [
 				{
@@ -222,14 +191,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/accounts/2/entries",
+					"raw": "localhost:5000/accounts/3/entries",
 					"host": [
 						"localhost"
 					],
 					"port": "5000",
 					"path": [
 						"accounts",
-						"2",
+						"3",
 						"entries"
 					]
 				}
@@ -454,7 +423,7 @@
 			"response": []
 		},
 		{
-			"name": "Add entry",
+			"name": "Add entry (form-urlencoded)",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -484,7 +453,7 @@
 					"mode": "urlencoded",
 					"urlencoded": [
 						{
-							"key": "account_id",
+							"key": "origin_account_id",
 							"value": "1",
 							"type": "text"
 						},
@@ -505,15 +474,113 @@
 						},
 						{
 							"key": "description",
-							"value": "Teste",
+							"value": "",
 							"type": "text"
 						},
 						{
 							"key": "commentary",
-							"value": "Teste",
+							"value": "",
 							"type": "text"
 						}
 					]
+				},
+				"url": {
+					"raw": "localhost:5000/entries",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"entries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add entry",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"origin_account_id\": \"1\",\r\n    \"destiny_account_id\": \"2\",\r\n    \"date\": \"15/07/2021\",\r\n    \"category\": \"YIELD\",\r\n    \"value\": \"550\",\r\n    \"description\": \"\",\r\n    \"commentary\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/entries",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"entries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add entry without optional fields",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"origin_account_id\": \"1\",\r\n    \"date\": \"15/07/2021\",\r\n    \"category\": \"YIELD\",\r\n    \"value\": \"550\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "localhost:5000/entries",
