@@ -148,5 +148,17 @@ def define_routes(app):
         log_response(response)
         return make_response(response, 400)
 
+    @app.route('/categories')
+    @cross_origin()
+    def all_categories():
+        log_request(request.path)
+
+        categories = get_all_categories()
+        response = {'categories': list(map((lambda category: category.__dict__()), categories))}
+
+        log_response(response)
+
+        return response
+
 
 main()

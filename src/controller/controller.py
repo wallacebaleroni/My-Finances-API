@@ -1,5 +1,6 @@
 from src.dao.EntryDAO import *
 from src.dao.AccountDAO import *
+from src.dao.CategoryDAO import *
 
 
 def get_all_accounts():
@@ -60,6 +61,11 @@ def create_entry(origin_account_id, destiny_account_id, date, category, value, d
         new_entry.set_seq(seq)
         return new_entry
     return None
+
+
+def get_all_categories():
+    categoryDAO = CategoryDAO()
+    return categoryDAO.get_all()
 
 
 def create_database():
