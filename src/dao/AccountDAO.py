@@ -44,4 +44,4 @@ class AccountDAO:
         if color is not None:
             return Account(account_id, name, account_type, color)
         else:
-            return Account(account_id, name, account_type)
+            return Account(account_id, name, account_type, "")

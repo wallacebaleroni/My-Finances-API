@@ -69,7 +69,7 @@ def define_routes(app):
         log_request(request.path, content)
 
         try:
-            name = get_field(content, 'name', required=True, is_number=True)
+            name = get_field(content, 'name', required=True)
             account_type = get_field(content, 'type', required=True)
             color = get_field(content, 'color')
         except KeyError as exception:
