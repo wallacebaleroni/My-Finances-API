@@ -1,5 +1,5 @@
 from src.model.Category import *
-from util.SqliteConnection import *
+from src.util.SqliteConnection import *
 
 
 class CategoryDAO:
