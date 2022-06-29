@@ -92,7 +92,9 @@ def define_routes(app):
     def all_entries():
         log_request(request.path)
 
-        entries = get_all_entries()
+        params = request.args.to_dict()
+
+        entries = get_all_entries(params)
         response = {'entries': list(map((lambda entry: entry.__dict__()), entries))}
 
         log_response(response)

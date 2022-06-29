@@ -31,8 +31,12 @@ def create_account(name, account_type, color):
     return None
 
 
-def get_all_entries():
+def get_all_entries(params):
     entryDAO = EntryDAO()
+
+    if len(params) != 0:
+        return entryDAO.get_with_params(params)
+
     return entryDAO.get_all()
 
 

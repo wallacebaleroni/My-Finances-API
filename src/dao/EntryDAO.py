@@ -30,7 +30,32 @@ class EntryDAO:
         command = "SELECT * FROM entry"
         results = execute_and_fetch(command)
         if results is None:
-            return list
+            return list()
+
+        return list(map(self.register_to_object, results))
+
+    def get_with_params(self, params):
+        conditions = []
+        if 'category' in params.keys():
+            conditions.append("category='{0}'".format(params['category']))
+        if 'initial_date' in params.keys():
+            conditions.append("date>'{0}'".format(params['initial_date']))
+        if 'final_date' in params.keys():
+            conditions.append("date<'{0}'".format(params['final_date']))
+
+        if len(conditions) == 0:
+            return self.get_all()
+
+        command = "SELECT * FROM entry WHERE"
+        for i in range(len(conditions)):
+            if i == 0:
+                command += " " + conditions[i]
+            else:
+                command += " AND " + conditions[i]
+
+        results = execute_and_fetch(command)
+        if results is None:
+            return list()
 
         return list(map(self.register_to_object, results))
 
