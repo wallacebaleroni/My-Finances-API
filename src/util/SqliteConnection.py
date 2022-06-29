@@ -1,9 +1,9 @@
 import sqlite3
-import res.params as params
+import res.properties as properties
 
 
 def open_sqlite_connection():
-    database_name = "financeiro_test" if params.is_test else "financeiro"
+    database_name = "financeiro_test" if properties.is_test else "financeiro"
 
     connection = sqlite3.connect("res/" + database_name + ".db")
     cursor = connection.cursor()
@@ -56,12 +56,12 @@ def create():
     connection, cursor = open_sqlite_connection()
 
     try:
-        if params.is_test:
+        if properties.is_test:
             drop_tables(cursor)
 
         create_tables(cursor)
 
-        if params.is_test:
+        if properties.is_test:
             populate(cursor)
 
         connection.commit()
