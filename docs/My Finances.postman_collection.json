@@ -260,7 +260,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/entries?category=YIELD&initial_date=2021-01-01&final_date=2021-12-31",
+					"raw": "{{base_url}}/entries?category=YIELD&initial_date=2021-01-01&final_date=2021-12-31&origin_account=1&destiny_account=2",
 					"host": [
 						"{{base_url}}"
 					],
@@ -279,6 +279,14 @@
 						{
 							"key": "final_date",
 							"value": "2021-12-31"
+						},
+						{
+							"key": "origin_account",
+							"value": "1"
+						},
+						{
+							"key": "destiny_account",
+							"value": "2"
 						}
 					]
 				}
@@ -315,6 +323,11 @@
 				"body": {
 					"mode": "urlencoded",
 					"urlencoded": [
+						{
+							"key": "origin_account_id",
+							"value": "1",
+							"type": "text"
+						},
 						{
 							"key": "account_id",
 							"value": "1",

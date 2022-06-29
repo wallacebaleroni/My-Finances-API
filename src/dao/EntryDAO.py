@@ -42,6 +42,10 @@ class EntryDAO:
             conditions.append("date>'{0}'".format(params['initial_date']))
         if 'final_date' in params.keys():
             conditions.append("date<'{0}'".format(params['final_date']))
+        if 'origin_account' in params.keys():
+            conditions.append("origin_account_id='{0}'".format(params['origin_account']))
+        if 'destiny_account' in params.keys():
+            conditions.append("destiny_account_id='{0}'".format(params['destiny_account']))
 
         if len(conditions) == 0:
             return self.get_all()

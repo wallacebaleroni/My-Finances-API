@@ -110,3 +110,5 @@ def populate(cursor):
                                   VALUES(2, '2021-07-09', 1, 'YIELD', 253, 'Rendimento PicPay', '');""")
     cursor.execute("""INSERT INTO entry(origin_account_id, date, seq, category, value, description, commentary)
                                   VALUES(1, '2021-07-09', 2, 'YIELD', 263, 'Rendimento NuConta', '');""")
+    cursor.execute("""INSERT INTO entry(origin_account_id, destiny_account_id, date, seq, category, value, description, commentary)
+                                  VALUES(1, 2, '2021-07-09', 2, 'YIELD', 500, 'Transferência', '');""")

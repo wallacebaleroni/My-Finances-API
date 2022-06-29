@@ -357,9 +357,9 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Returns 3 entries\", () => {\r",
+							"pm.test(\"Returns 1 entry\", () => {\r",
 							"    const responseJson = pm.response.json();\r",
-							"    pm.expect(responseJson.entries).to.have.lengthOf(3);\r",
+							"    pm.expect(responseJson.entries).to.have.lengthOf(1);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -370,7 +370,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/entries?category=YIELD&initial_date=2021-01-01&final_date=2021-12-31",
+					"raw": "{{base_url}}/entries?category=YIELD&initial_date=2021-01-01&final_date=2021-12-31&origin_account=1&destiny_account=2",
 					"host": [
 						"{{base_url}}"
 					],
@@ -389,6 +389,14 @@
 						{
 							"key": "final_date",
 							"value": "2021-12-31"
+						},
+						{
+							"key": "origin_account",
+							"value": "1"
+						},
+						{
+							"key": "destiny_account",
+							"value": "2"
 						}
 					]
 				}
