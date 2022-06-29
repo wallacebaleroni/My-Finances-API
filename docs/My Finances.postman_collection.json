@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "e3bd81a5-c432-40d3-809c-c271e00e1eaa",
 		"name": "My Finances",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16601624"
 	},
 	"item": [
 		{
@@ -24,11 +25,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/accounts",
+					"raw": "{{base_url}}/accounts",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "5000",
 					"path": [
 						"accounts"
 					]
@@ -100,11 +100,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/accounts/1",
+					"raw": "{{base_url}}/accounts/1",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "5000",
 					"path": [
 						"accounts",
 						"1"
@@ -119,11 +118,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/accounts/1/entries",
+					"raw": "{{base_url}}/accounts/1/entries",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "5000",
 					"path": [
 						"accounts",
 						"1",
@@ -170,11 +168,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:5000/accounts",
+					"raw": "{{base_url}}/accounts",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "5000",
 					"path": [
 						"accounts"
 					]
@@ -201,11 +198,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/entries",
+					"raw": "{{base_url}}/entries",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "5000",
 					"path": [
 						"entries"
 					]
@@ -257,6 +253,37 @@
 					"body": "{\n    \"entries\": [\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"09/07/2021\",\n            \"description\": \"Rendimento NuConta\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 1,\n            \"origin_account_id\": 1,\n            \"seq\": 0,\n            \"value\": 118\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"09/07/2021\",\n            \"description\": \"Rendimento PicPay\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 2,\n            \"origin_account_id\": 2,\n            \"seq\": 1,\n            \"value\": 253\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"09/07/2021\",\n            \"description\": \"Rendimento NuConta\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 3,\n            \"origin_account_id\": 1,\n            \"seq\": 2,\n            \"value\": 263\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"15/07/2021\",\n            \"description\": \"\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 4,\n            \"origin_account_id\": 1,\n            \"seq\": 1,\n            \"value\": 550\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"15/07/2021\",\n            \"description\": \"\",\n            \"destiny_account_id\": 2,\n            \"entry_id\": 5,\n            \"origin_account_id\": 1,\n            \"seq\": 2,\n            \"value\": 550\n        },\n        {\n            \"category\": \"YIELD\",\n            \"commentary\": \"\",\n            \"date\": \"15/07/2021\",\n            \"description\": \"\",\n            \"destiny_account_id\": null,\n            \"entry_id\": 6,\n            \"origin_account_id\": 1,\n            \"seq\": 3,\n            \"value\": 550\n        }\n    ]\n}"
 				}
 			]
+		},
+		{
+			"name": "Entries with query params",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/entries?category=YIELD&initial_date=2021-01-01&final_date=2021-12-31",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"entries"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "YIELD"
+						},
+						{
+							"key": "initial_date",
+							"value": "2021-01-01"
+						},
+						{
+							"key": "final_date",
+							"value": "2021-12-31"
+						}
+					]
+				}
+			},
+			"response": []
 		},
 		{
 			"name": "Add entry",
@@ -321,11 +348,10 @@
 					]
 				},
 				"url": {
-					"raw": "localhost:5000/entries",
+					"raw": "{{base_url}}/entries",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "5000",
 					"path": [
 						"entries"
 					]
@@ -352,11 +378,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:5000/entries/{{valid_entry_id}}",
+					"raw": "{{base_url}}/entries/{{valid_entry_id}}",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "5000",
 					"path": [
 						"entries",
 						"{{valid_entry_id}}"
@@ -364,6 +389,81 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "All categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Retorna OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/categories",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "All categories",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "156"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.0.1 Python/3.9.6"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 21 Aug 2021 18:25:52 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"categories\": [\n        {\n            \"category_id\": 1,\n            \"name\": \"Rendimento\"\n        },\n        {\n            \"category_id\": 2,\n            \"name\": \"Transporte\"\n        }\n    ]\n}"
+				}
+			]
 		}
 	],
 	"variable": [
